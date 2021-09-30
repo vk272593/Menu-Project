@@ -72,13 +72,29 @@ const menu = [
       img: "./images/item-9.jpeg",
       desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
     },
+    {
+        id: 10,
+        title: "Italian Disc",
+        category: "dinner",
+        price: 100.99,
+        img: "./images/item-10.jpeg",
+        desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+      },
   ];
  const sectionCenter=document.querySelector('.section-center');
- const filterBtn=document.querySelectorAll('.filter-btn')
+ const btnContainer=document.querySelector('.btn-container')
  //Load item
  window.addEventListener("DOMContentLoaded",()=>{
-    displayMenuItem(menu)
+     displayMenuItem(menu)
+     displayMenuButtons()
+    
  })
+ 
+
+
+
+
+
  function displayMenuItem(menuItems){
     let displayMenu=menuItems.map((menuItems)=>{
          
@@ -99,22 +115,42 @@ const menu = [
     sectionCenter.innerHTML=displayMenu
     // console.log(displayMenu);
  }
- //Load data after filter
- filterBtn.forEach((btn)=>{
-     btn.addEventListener('click',(e)=>{
-         const category=e.currentTarget.dataset.id;
-         const menuCategory=menu.filter((menuItem)=>{
-            if(menuItem.category===category){
-                return menuItem;
-            }
-         })
-         if(category==='all'){
-             displayMenuItem(menu);
-         }
-         else{
-             displayMenuItem(menuCategory)
-         }
-     });
- })
+ //Display button
+ function displayMenuButtons(){
+    const categories=menu.reduce((values,item)=>{
+        if(!values.includes(item.category)){
+            values.push(item.category)
+           }
+           return values
+           
+       },['all'])
+       console.log(categories);
+       let categoryBtn=categories.map((category)=>{
+           return `<button class="filter-btn" type="button"
+           data-id=${category}>${category}</button>`
+           
+       })
+       categoryBtn=categoryBtn.join('')
+       btnContainer.innerHTML=categoryBtn
+       const filterBtn=document.querySelectorAll('.filter-btn')
+       filterBtn.forEach((btn)=>{
+           btn.addEventListener('click',(e)=>{
+               const category=e.currentTarget.dataset.id;
+               const menuCategory=menu.filter((menuItem)=>{
+                  if(menuItem.category===category){
+                      return menuItem;
+                  }
+               })
+               if(category==='all'){
+                   displayMenuItem(menu);
+               }
+               else{
+                   displayMenuItem(menuCategory)
+               }
+           });
+       })
+       
+   console.log(categoryBtn);
+ }
  
   
